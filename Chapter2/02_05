@@ -1,1 +1,91 @@
 
+Objective: To build an AI-based system using Isolation Forest that can analyze Free5GC NRF logs and automatically flag suspicious or abnormal traffic behavior using pattern recognition
+
+Step 1: Upload your log file, for example NRF_LOG
+-----------------------------------------------
+
+from google.colab import files
+uploaded = files.upload()
+
+
+Step 2: Parse Log Lines into a Structured Table
+----------------------------------------------------
+
+import re
+import pandas as pd
+
+logfile = "nrf_logs.txt"  # ✅ Your actual file name
+
+log_data = []
+
+with open(logfile, 'r') as f:
+    for line in f:
+        # ⚠️ Sample pattern — adjust based on your actual log format
+        # Looking for format like: [time] src=... dst=... method=... uri=...
+        match = re.search(r'\[(.*?)\].*?src=(.*?) dst=(.*?) method=(\w+) uri=(\S+)', line)
+        if match:
+            timestamp = match.group(1)
+            src_ip = match.group(2)
+            dst_ip = match.group(3)
+            method = match.group(4)
+            uri = match.group(5)
+            log_data.append([timestamp, src_ip, dst_ip, method, uri])
+
+df = pd.DataFrame(log_data, columns=['timestamp', 'src_ip', 'dst_ip', 'method', 'uri'])
+df.head()
+
+Step 3: Step 3: Encode Categorical Fields for Machine Learning
+-----------------------------------------------------------------
+
+# Convert categorical fields to numeric codes
+df['src_ip'] = df['src_ip'].astype('category').cat.codes
+df['method'] = df['method'].astype('category').cat.codes
+df['uri'] = df['uri'].astype('category').cat.codes
+df['status'] = df['status'].astype(int)
+
+# Extract timestamp features (like seconds since first request)
+df['timestamp'] = pd.to_datetime(df['timestamp'])
+df['relative_time'] = (df['timestamp'] - df['timestamp'].min()).dt.total_seconds()
+
+# Select features for ML
+features = df[['src_ip', 'method', 'uri', 'status', 'relative_time']]
+features.head()
+
+
+Step 4: Run the Isolation Forest Algorithm
+-------------------------------------------------
+What: Use IsolationForest(contamination=0.05) to flag rare or unusual request patterns.
+Why: Isolation Forest is unsupervised and great at detecting outliers — especially in high-volume, unlabeled datasets.
+
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Cluster into 3 traffic behavior types
+kmeans = KMeans(n_clusters=3, random_state=0)
+df['cluster'] = kmeans.fit_predict(features)
+
+# Plot the clusters
+plt.figure(figsize=(10, 6))
+plt.scatter(df['relative_time'], df['src_ip'], c=df['cluster'], cmap='viridis', s=50)
+plt.xlabel('Time Since Start (s)')
+plt.ylabel('Source IP (coded)')
+plt.title('NRF Log Traffic Clustered by Behavior')
+plt.grid(True)
+plt.show()
+
+Step 5: Interpret the Anomalies
+-----------------------------------
+
+from sklearn.ensemble import IsolationForest
+
+# IsolationForest to find outliers in traffic behavior
+model = IsolationForest(contamination=0.05, random_state=0)
+df['anomaly'] = model.fit_predict(features)
+
+# Show anomalous requests
+anomalies = df[df['anomaly'] == -1]
+print("⚠️ Detected Anomalies:")
+print(anomalies[['timestamp', 'src_ip', 'method', 'uri', 'status']])
+
+
+
