@@ -1,3 +1,5 @@
+Objective: Build a Telecom Root Cause Analysis (RCA) Assistant using LLM + RAG
+
 Step 1: Install Required Packages
 ------------------------------------
 
