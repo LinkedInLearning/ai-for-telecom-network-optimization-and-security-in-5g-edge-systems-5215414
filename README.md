@@ -1,6 +1,12 @@
 # AI for Telecom: Network Optimization & Security in 5G/Edge Systems
 This is the repository for the LinkedIn Learning course `AI for Telecom: Network Optimization & Security in 5G/Edge Systems`. The full course is available from [LinkedIn Learning][lil-course-url].
 
+![lil-thumbnail-url]
+
+## Course Description
+
+Unlock the power of AI in telecom with this hands-on course designed for both technical and non-technical audiences. Learn how AI optimizes networks, enhances security, and drives automation in 5G, ORAN, IoT, and edge computing environments. Gain practical skills to design and deploy AI-driven solutions using tools like Python, TensorFlow, and MATLAB. Discover how to evaluate AI’s impact on business performance, scalability, and compliance, empowering you to turn insights into action and future-proof telecom operations.
+
 _See the readme file in the main branch for updated instructions and information._
 ## Instructions
 This repository has branches for each of the videos in the course. You can use the branch pop up menu in github to switch to a specific branch and take a look at the course at that stage, or you can add `/tree/BRANCH_NAME` to the URL to go to the branch you want to access.
@@ -20,25 +26,19 @@ To resolve this issue:
     Add changes to git using this command: git add .
 	Commit changes using this command: git commit -m "some message"
 
-## Installing
-1. To use these exercise files, you must have the following installed:
-	- [list of requirements for course]
-2. Clone this repository into your local machine using the terminal (Mac), CMD (Windows), or a GUI tool like SourceTree.
-3. [Course-specific instructions]
 
 ## Instructor
 
-Instructor name
+Taha Sajid
 
-Instructor description
-
+Founder of XecurityPulse | Principal Architect | Author | EB1A Coach
                             
 
-Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/).
+Check out my other courses on [LinkedIn Learning](https://www.linkedin.com/learning/instructors/taha-sajid?u=104).
 
 
 [0]: # (Replace these placeholder URLs with actual course URLs)
 
-[lil-course-url]: https://www.linkedin.com/learning/
-[lil-thumbnail-url]: http://
+[lil-course-url]: https://www.linkedin.com/learning/ai-for-telecom-network-optimization-and-security-in-5g-edge-systems
+[lil-thumbnail-url]: https://media.licdn.com/dms/image/v2/D4E0DAQHQTPKa1YPriA/learning-public-crop_675_1200/B4EZc3kca6HcAg-/0/1748983990595?e=2147483647&v=beta&t=OO6KmTNsSyFxh1eyeKqkH54me8pd2Zhg-yTqxUbFQMo
 
